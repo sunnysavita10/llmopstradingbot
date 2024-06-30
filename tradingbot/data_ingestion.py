@@ -1,9 +1,9 @@
 from langchain_astradb import AstraDBVectorStore
 from langchain_openai import OpenAIEmbeddings
 from dotenv import load_dotenv
+from helper import load_file
 import os
 import pandas as pd
-from ecommbot.data_converter import dataconveter
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ embedding = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
 def ingestdata(status):
     vstore = AstraDBVectorStore(
             embedding=embedding,
-            collection_name="chatbotecomm",
+            collection_name="financebot",
             api_endpoint=ASTRA_DB_API_ENDPOINT,
             token=ASTRA_DB_APPLICATION_TOKEN,
             namespace=ASTRA_DB_KEYSPACE,
@@ -26,10 +26,11 @@ def ingestdata(status):
     storage=status
     
     if storage==None:
-        docs=dataconveter()
+        docs=load_file()
         inserted_ids = vstore.add_documents(docs)
     else:
         return vstore
+    
     return vstore, inserted_ids
 
 if __name__=='__main__':
