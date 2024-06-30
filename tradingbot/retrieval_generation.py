@@ -37,7 +37,7 @@ def generation(vstore):
     return chain
 
 if __name__=='__main__':
-    vstore = ingestdata("done")
+    vstore = ingestdata("None")
     chain  = generation(vstore)
     print(chain.invoke("what is Market For Registrant’s Common Equity?"))
     
